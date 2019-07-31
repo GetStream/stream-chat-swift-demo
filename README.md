@@ -1,6 +1,6 @@
 # Stream Chat Swift Demo
 
-This is the final project of the [Chat iOS With The Stream Swift SDK tutorial](https://getstream.io/chat/ios-chat/tutorial/).
+This is the final project of the [iOS Chat With The Stream Swift SDK tutorial](https://getstream.io/chat/ios-chat/tutorial/).
 
 ## Requirements
 
