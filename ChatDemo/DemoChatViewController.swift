@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import StreamChatCore
 import StreamChat
 
 class DemoChatViewController: ChatViewController {

@@ -8,6 +8,7 @@
 
 import UIKit
 // Add Stream Chat SDK.
+import StreamChatCore
 import StreamChat
 
 /// Use ChannelsViewController as the parent view controller.
