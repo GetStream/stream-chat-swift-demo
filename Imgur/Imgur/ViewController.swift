@@ -11,6 +11,8 @@ import StreamChatCore
 import StreamChat
 import Nuke
 import SnapKit
+import RxSwift
+import RxCocoa
 
 class ViewController: ChatViewController {
     
@@ -39,7 +41,7 @@ class ViewController: ChatViewController {
         style.outgoingMessage.showCurrentUserAvatar = false
         style.composer.backgroundColor = backgroundColor
         style.composer.helperContainerBackgroundColor = backgroundColor
-        style.composer.edgeInsets = .zero
+        style.composer.edgeInsets = .init(top: 0, left: 0, bottom: 50, right: 0)
         style.composer.cornerRadius = 0
         style.composer.height = 50
         style.composer.sendButtonVisibility = .always
@@ -55,6 +57,7 @@ class ViewController: ChatViewController {
         super.viewDidLoad()
         composerView.setSendButtonTitle("Send")
         addLinesToComposerView()
+        addCustomButton()
     }
     
     func setupAttachmentsButton() {
@@ -62,61 +65,43 @@ class ViewController: ChatViewController {
         
         // Create a menu item for attachments.
         let selectGoose: ComposerAddFileType = .custom(icon: nil, title: "Goose dance with pigeons", .custom("custom1"), { _ in
-            
             // Here open your picker view controller and select some image.
-            
-            // For example, let's select some image.
-            let imageURL = URL(string: "https://i.imgur.com/zQheoDj.gif")!
-            
-            // Load preview.
-            ImagePipeline.shared.loadImage(with: imageURL, completion: { result in
-                guard let response = try? result.get() else {
-                    return
-                }
-                
-                // This is the most important part.
-                // You can skip using attachments menu from ComposerView (just set `composerAddFileTypes = []`) and use own buttons.
-                // Here an example how to add some exists URL to the ComposerView.
-                
-                // Create an attachment with already exists URL.
-                let attachment = Attachment(type: .imgur,
-                                            title: "Goose dance with pigeons",
-                                            url: imageURL,
-                                            imageURL: imageURL)
-                
-                /// Add the attachment to the composer.
-                self.composerView.addImageUploaderItem(UploaderItem(attachment: attachment,
-                                                                    previewImage: response.image,
-                                                                    previewImageGifData: response.image.animatedImageData))
-            })
-            
+            self.select(url: URL(string: "https://i.imgur.com/zQheoDj.gif")!, title: "Goose dance with pigeons")
             self.hideAddFileView()
-            
         })
         
         // The same actions for the Star Wars.
         let selectStarWars: ComposerAddFileType = .custom(icon: nil, title: "Star Wars", .custom("custom2"), { _ in
-            let imageURL = URL(string: "https://i.imgur.com/zN5umvX.gif")!
-            
-            ImagePipeline.shared.loadImage(with: imageURL, completion: { result in
-                guard let response = try? result.get() else {
-                    return
-                }
-                
-                let attachment = Attachment(type: .imgur,
-                                            title: "Star Wars",
-                                            url: imageURL,
-                                            imageURL: imageURL)
-                
-                self.composerView.addImageUploaderItem(UploaderItem(attachment: attachment,
-                                                                    previewImage: response.image,
-                                                                    previewImageGifData: response.image.animatedImageData))
-            })
-            
+            // Here open your picker view controller and select some image.
+            self.select(url: URL(string: "https://i.imgur.com/zN5umvX.gif")!, title: "Star Wars")
             self.hideAddFileView()
         })
         
         composerAddFileTypes = [selectGoose, selectStarWars]
+    }
+    
+    func select(url: URL, title: String) {
+        // Load preview.
+        ImagePipeline.shared.loadImage(with: url, completion: { result in
+            guard let response = try? result.get() else {
+                return
+            }
+            
+            // This is the most important part.
+            // You can skip using attachments menu from ComposerView (just set `composerAddFileTypes = []`) and use own buttons.
+            // Here an example how to add some exists URL to the ComposerView.
+            
+            // Create an attachment with already exists URL.
+            let attachment = Attachment(type: .imgur,
+                                        title: title,
+                                        url: url,
+                                        imageURL: url)
+            
+            /// Add the attachment to the composer.
+            self.composerView.addImageUploaderItem(UploaderItem(attachment: attachment,
+                                                                previewImage: response.image,
+                                                                previewImageGifData: response.image.animatedImageData))
+        })
     }
 }
 
@@ -138,5 +123,27 @@ extension ViewController {
             make.left.right.bottom.equalToSuperview()
             make.height.equalTo(2)
         }
+    }
+    
+    func addCustomButton() {
+        let button = UIButton(type: .custom)
+        button.setTitle("🐷", for: .normal)
+        view.addSubview(button)
+        
+        // Button layout:
+        // left = superview
+        // top = ComposerView.bottom
+        // size = 50
+        button.snp.makeConstraints { make in
+            make.left.equalToSuperview()
+            make.top.equalTo(composerView.snp.bottom)
+            make.width.height.equalTo(50)
+        }
+        
+        button.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                self?.select(url: URL(string: "https://i.imgur.com/xCSs2rQ.gif")!, title: "Pig dance")
+            })
+            .disposed(by: disposeBag)
     }
 }
