@@ -21,11 +21,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Client.shared.set(user: User(id: "proud-mountain-3", name: "Proud mountain"),
                           token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoicHJvdWQtbW91bnRhaW4tMyJ9.HIxKKB1IiOlFTpI8Xax5gLiP_V4IlaZpt4-1vfYF-_U")
         
-        if let navigationController = window?.rootViewController as? UINavigationController,
-            let channelsViewController = navigationController.viewControllers.first as? ChannelsViewController {
-            channelsViewController.channelsPresenter.filter = .key("members", .in(["proud-mountain-3"]))
-        }
-        
         return true
     }
 }

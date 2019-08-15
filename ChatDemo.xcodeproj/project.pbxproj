@@ -12,7 +12,6 @@
 		8A7768F822D608E5001F2348 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A7768F622D608E5001F2348 /* Main.storyboard */; };
 		8A7768FA22D608E6001F2348 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A7768F922D608E6001F2348 /* Assets.xcassets */; };
 		8A7768FD22D608E6001F2348 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A7768FB22D608E6001F2348 /* LaunchScreen.storyboard */; };
-		8AAFE5FB22D60CBE00FDD7D2 /* DemoChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAFE5FA22D60CBE00FDD7D2 /* DemoChatViewController.swift */; };
 		94BC839126CDE1097D05DEBF /* Pods_ChatDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BDA1FB92F02E87728118EE1 /* Pods_ChatDemo.framework */; };
 /* End PBXBuildFile section */
 
@@ -27,7 +26,6 @@
 		8A7768F922D608E6001F2348 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8A7768FC22D608E6001F2348 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8A7768FE22D608E6001F2348 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8AAFE5FA22D60CBE00FDD7D2 /* DemoChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoChatViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,7 +80,6 @@
 			children = (
 				8A7768F222D608E5001F2348 /* AppDelegate.swift */,
 				8A7768F422D608E5001F2348 /* ViewController.swift */,
-				8AAFE5FA22D60CBE00FDD7D2 /* DemoChatViewController.swift */,
 				8A7768F622D608E5001F2348 /* Main.storyboard */,
 				8A7768F922D608E6001F2348 /* Assets.xcassets */,
 				8A7768FB22D608E6001F2348 /* LaunchScreen.storyboard */,
@@ -207,7 +204,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8A7768F522D608E5001F2348 /* ViewController.swift in Sources */,
-				8AAFE5FB22D60CBE00FDD7D2 /* DemoChatViewController.swift in Sources */,
 				8A7768F322D608E5001F2348 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

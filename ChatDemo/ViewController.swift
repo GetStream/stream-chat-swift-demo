@@ -7,29 +7,156 @@
 //
 
 import UIKit
-// Add Stream Chat SDK.
 import StreamChatCore
 import StreamChat
+import Nuke
+import SnapKit
+import RxSwift
+import RxCocoa
 
-/// Use ChannelsViewController as the parent view controller.
-class ViewController: ChannelsViewController {
-    /// We override the inherited method for a channel cell.
-    /// Here we can create absolutely new table view cell for the channel.
-    override func channelCell(at indexPath: IndexPath, channelPresenter: ChannelPresenter) -> UITableViewCell {
-        // For now, get the default channel cell.
-        let cell = super.channelCell(at: indexPath, channelPresenter: channelPresenter)
+class ViewController: ChatViewController {
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        let channel = Channel(id: "general", name: "General")
+        channelPresenter = ChannelPresenter(channel: channel)
         
-        // We need to check if the returned cell is ChannelTableViewCell.
-        guard let channelCell = cell as? ChannelTableViewCell else {
-            return cell
+        let backgroundColor = UIColor(red: 0.18, green: 0.19, blue: 0.21, alpha: 1)
+        let imgurColor1 = UIColor(red: 0.35, green: 0.70, blue: 0.46, alpha: 1)
+        let imgurColor2 = UIColor(red: 0.95, green: 0.71, blue: 0.26, alpha: 1)
+        
+        var style = ChatViewStyle.dark
+        style.incomingMessage.replyColor = imgurColor1
+        style.incomingMessage.chatBackgroundColor = backgroundColor
+        style.incomingMessage.backgroundColor = .white
+        style.incomingMessage.textColor = .black
+        style.incomingMessage.borderWidth = 0
+        style.incomingMessage.cornerRadius = 5
+        style.outgoingMessage.replyColor = imgurColor1
+        style.outgoingMessage.chatBackgroundColor = backgroundColor
+        style.outgoingMessage.backgroundColor = imgurColor1
+        style.outgoingMessage.textColor = .white
+        style.outgoingMessage.borderWidth = 0
+        style.outgoingMessage.cornerRadius = 5
+        style.outgoingMessage.showCurrentUserAvatar = false
+        style.composer.backgroundColor = backgroundColor
+        style.composer.helperContainerBackgroundColor = backgroundColor
+        style.composer.edgeInsets = .init(top: 0, left: 0, bottom: 50, right: 0)
+        style.composer.cornerRadius = 0
+        style.composer.height = 50
+        style.composer.sendButtonVisibility = .always
+        style.composer.states = [.active: .init(tintColor: imgurColor1),
+                                 .edit: .init(tintColor: imgurColor2),
+                                 .disabled: .init(tintColor: .chatGray)]
+        self.style = style
+        
+        setupAttachmentsButton()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        composerView.setSendButtonTitle("Send")
+        addLinesToComposerView()
+        addCustomButton()
+    }
+    
+    func setupAttachmentsButton() {
+        ImagePipeline.Configuration.isAnimatedImageDataEnabled = true
+        
+        // Create a menu item for attachments.
+        let selectGoose: ComposerAddFileType = .custom(icon: nil, title: "Goose dance with pigeons", .custom("custom1"), { _ in
+            // Here open your picker view controller and select some image.
+            self.select(url: URL(string: "https://i.imgur.com/zQheoDj.gif")!, title: "Goose dance with pigeons")
+            self.hideAddFileView()
+        })
+        
+        // The same actions for the Star Wars.
+        let selectStarWars: ComposerAddFileType = .custom(icon: nil, title: "Star Wars", .custom("custom2"), { _ in
+            // Here open your picker view controller and select some image.
+            self.select(url: URL(string: "https://i.imgur.com/zN5umvX.gif")!, title: "Star Wars")
+            self.hideAddFileView()
+        })
+        
+        composerAddFileTypes = [selectGoose, selectStarWars]
+    }
+    
+    func select(url: URL, title: String) {
+        // Load preview.
+        ImagePipeline.shared.loadImage(with: url, completion: { result in
+            guard let response = try? result.get() else {
+                return
+            }
+            
+            // This is the most important part.
+            // You can skip using attachments menu from ComposerView (just set `composerAddFileTypes = []`) and use own buttons.
+            // Here an example how to add some exists URL to the ComposerView.
+            
+            // Create an attachment with already exists URL.
+            let attachment = Attachment(type: .imgur,
+                                        title: title,
+                                        url: url,
+                                        imageURL: url)
+            
+            /// Add the attachment to the composer.
+            self.composerView.addImageUploaderItem(UploaderItem(attachment: attachment,
+                                                                previewImage: response.image,
+                                                                previewImageGifData: response.image.animatedImageData))
+        })
+    }
+}
+
+extension ViewController {
+    func addLinesToComposerView() {
+        let lineTopView = UIView(frame: .zero)
+        let lineBottomView = UIView(frame: .zero)
+        lineTopView.backgroundColor = UIColor(white: 0.13, alpha: 1)
+        lineBottomView.backgroundColor = lineTopView.backgroundColor
+        composerView.addSubview(lineTopView)
+        composerView.addSubview(lineBottomView)
+        
+        lineTopView.snp.makeConstraints { make in
+            make.left.right.top.equalToSuperview()
+            make.height.equalTo(2)
         }
         
-        // Check the number of unread messages.
-        if channelPresenter.unreadCount > 0 {
-            // Add the info about unread messages to the cell.
-            channelCell.update(info: "\(channelPresenter.unreadCount) unread", isUnread: true)
+        lineBottomView.snp.makeConstraints { make in
+            make.left.right.bottom.equalToSuperview()
+            make.height.equalTo(2)
+        }
+    }
+    
+    func addCustomButton() {
+        let button = UIButton(type: .custom)
+        button.setTitle("🐷", for: .normal)
+        view.addSubview(button)
+        
+        // Button layout:
+        // left = superview
+        // top = ComposerView.bottom
+        // size = 50
+        button.snp.makeConstraints { make in
+            make.left.equalToSuperview()
+            make.top.equalTo(composerView.snp.bottom)
+            make.width.height.equalTo(50)
         }
         
-        return channelCell
+        button.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                self?.select(url: URL(string: "https://i.imgur.com/xCSs2rQ.gif")!, title: "Pig dance")
+            })
+            .disposed(by: disposeBag)
+        
+        addBottomBackgroundViewForCustomButton(button)
+    }
+    
+    func addBottomBackgroundViewForCustomButton(_ button: UIButton) {
+        let view = UIView(frame: .zero)
+        view.backgroundColor = self.view.backgroundColor
+        self.view.insertSubview(view, belowSubview: button)
+        
+        view.snp.makeConstraints { make in
+            make.left.right.bottom.equalToSuperview()
+            make.top.equalTo(button.snp.top)
+        }
     }
 }
