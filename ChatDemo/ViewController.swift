@@ -18,7 +18,7 @@ class ViewController: ChatViewController {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        let channel = Channel(id: "general", name: "General")
+        let channel = Channel(type: .messaging, id: "general", name: "General")
         channelPresenter = ChannelPresenter(channel: channel)
         
         let backgroundColor = UIColor(red: 0.18, green: 0.19, blue: 0.21, alpha: 1)
