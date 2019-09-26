@@ -16,6 +16,8 @@ import RxCocoa
 
 class ViewController: ChatViewController {
     
+    let sendButton = UIButton(type: .custom)
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         let channel = Channel(type: .messaging, id: "general", name: "General")
@@ -44,20 +46,23 @@ class ViewController: ChatViewController {
         style.composer.edgeInsets = .init(top: 0, left: 0, bottom: 50, right: 0)
         style.composer.cornerRadius = 0
         style.composer.height = 50
-        style.composer.sendButtonVisibility = .always
+        style.composer.sendButtonVisibility = .none
         style.composer.states = [.active: .init(tintColor: imgurColor1),
                                  .edit: .init(tintColor: imgurColor2),
                                  .disabled: .init(tintColor: .chatGray)]
         self.style = style
         
+        // This is the most important part.
+        // You can skip using attachments menu from ComposerView (just set `composerAddFileTypes = []`) and use own buttons.
+        // Here an example how to add some exists URL to the ComposerView.
         setupAttachmentsButton()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        composerView.setSendButtonTitle("Send")
         addLinesToComposerView()
         addCustomButton()
+        addCustomSendButton()
     }
     
     func setupAttachmentsButton() {
@@ -87,10 +92,6 @@ class ViewController: ChatViewController {
                 return
             }
             
-            // This is the most important part.
-            // You can skip using attachments menu from ComposerView (just set `composerAddFileTypes = []`) and use own buttons.
-            // Here an example how to add some exists URL to the ComposerView.
-            
             // Create an attachment with already exists URL.
             let attachment = Attachment(type: .imgur,
                                         title: title,
@@ -106,6 +107,7 @@ class ViewController: ChatViewController {
 }
 
 extension ViewController {
+    
     func addLinesToComposerView() {
         let lineTopView = UIView(frame: .zero)
         let lineBottomView = UIView(frame: .zero)
@@ -158,5 +160,29 @@ extension ViewController {
             make.left.right.bottom.equalToSuperview()
             make.top.equalTo(button.snp.top)
         }
+    }
+    
+    func addCustomSendButton() {
+        sendButton.setTitle("Send", for: .normal)
+        sendButton.setTitleColor(.white, for: .normal)
+        sendButton.setTitleColor(.gray, for: .disabled)
+        sendButton.titleLabel?.font = .systemFont(ofSize: 14, weight: .bold)
+        view.addSubview(sendButton)
+        
+        sendButton.snp.makeConstraints { make in
+            make.height.equalTo(50)
+            make.right.equalToSuperview().offset(-16)
+            make.top.equalTo(composerView.snp.bottom)
+        }
+        
+        // React on visibility state of the sendButton.
+        composerView.sendButtonVisibility
+            .subscribe(onNext: { [weak self] visibility in self?.sendButton.isEnabled = visibility.isEnabled })
+            .disposed(by: disposeBag)
+        
+        // Send a message.
+        sendButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in self?.send() })
+            .disposed(by: disposeBag)
     }
 }
