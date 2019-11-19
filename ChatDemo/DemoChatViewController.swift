@@ -15,7 +15,7 @@ class DemoChatViewController: ChatViewController {
         super.init(coder: aDecoder)
         
         // Set the general channel.
-        let channel = Channel(id: "general", name: "General")
+        let channel = Channel(type: .messaging, id: "general", name: "General")
         channelPresenter = ChannelPresenter(channel: channel)
         
         // Update styles.

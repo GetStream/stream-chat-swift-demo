@@ -25,9 +25,9 @@ class ViewController: ChannelsViewController {
         }
         
         // Check the number of unread messages.
-        if channelPresenter.unreadCount > 0 {
+        if channelPresenter.channel.currentUnreadCount > 0 {
             // Add the info about unread messages to the cell.
-            channelCell.update(info: "\(channelPresenter.unreadCount) unread", isUnread: true)
+            channelCell.update(info: "\(channelPresenter.channel.currentUnreadCount) unread", isUnread: true)
         }
         
         return channelCell

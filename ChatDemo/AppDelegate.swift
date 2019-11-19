@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if let navigationController = window?.rootViewController as? UINavigationController,
             let channelsViewController = navigationController.viewControllers.first as? ChannelsViewController {
-            channelsViewController.channelsPresenter.filter = .key("members", .in(["proud-mountain-3"]))
+            channelsViewController.channelsPresenter = ChannelsPresenter(channelType: .messaging, filter: .key("members", .in(["proud-mountain-3"])))
         }
         
         return true
