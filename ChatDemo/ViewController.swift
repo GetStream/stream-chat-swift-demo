@@ -8,11 +8,22 @@
 
 import UIKit
 // Add Stream Chat SDK.
+import StreamChatClient
 import StreamChatCore
 import StreamChat
 
 /// Use ChannelsViewController as the parent view controller.
 class ViewController: ChannelsViewController {
+    required init?(coder: NSCoder) {
+        Client.configureShared(.init(apiKey: "m7cdet3kpfdu", logOptions: .info))
+        
+        let userExtraData = UserExtraData(name: "Square art")
+        Client.shared.set(user: User(id: "square-art-0", extraData: userExtraData),
+                          token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoic3F1YXJlLWFydC0wIn0.HDTQ8dDHSndescdgmi-T6Ta0yORvVD6sYLXB08CqZaM")
+        
+        super.init(coder: coder)
+    }
+    
     /// We override the inherited method for a channel cell.
     /// Here we can create absolutely new table view cell for the channel.
     override func channelCell(at indexPath: IndexPath, channelPresenter: ChannelPresenter) -> UITableViewCell {
@@ -25,11 +36,17 @@ class ViewController: ChannelsViewController {
         }
         
         // Check the number of unread messages.
-        if channelPresenter.channel.currentUnreadCount > 0 {
+        if channelPresenter.channel.unreadCount.messages > 0 {
             // Add the info about unread messages to the cell.
-            channelCell.update(info: "\(channelPresenter.channel.currentUnreadCount) unread", isUnread: true)
+            channelCell.update(info: "\(channelPresenter.channel.unreadCount.messages) unread", isUnread: true)
         }
         
         return channelCell
+    }
+    
+    override func createChatViewController(with channelPresenter: ChannelPresenter) -> ChatViewController {
+        let chatViewController = DemoChatViewController()
+        chatViewController.presenter = channelPresenter
+        return chatViewController
     }
 }
