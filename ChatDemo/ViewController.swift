@@ -15,12 +15,6 @@ import StreamChat
 /// Use ChannelsViewController as the parent view controller.
 class ViewController: ChannelsViewController {
     required init?(coder: NSCoder) {
-        Client.configureShared(.init(apiKey: "m7cdet3kpfdu", logOptions: .info))
-        
-        let userExtraData = UserExtraData(name: "Square art")
-        Client.shared.set(user: User(id: "square-art-0", extraData: userExtraData),
-                          token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoic3F1YXJlLWFydC0wIn0.HDTQ8dDHSndescdgmi-T6Ta0yORvVD6sYLXB08CqZaM")
-        
         super.init(coder: coder)
     }
     

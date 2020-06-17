@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		80A1686C2499A6D400191F34 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A1686B2499A6D400191F34 /* SceneDelegate.swift */; };
 		8A7768F322D608E5001F2348 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7768F222D608E5001F2348 /* AppDelegate.swift */; };
 		8A7768F522D608E5001F2348 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7768F422D608E5001F2348 /* ViewController.swift */; };
 		8A7768F822D608E5001F2348 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A7768F622D608E5001F2348 /* Main.storyboard */; };
@@ -20,6 +21,7 @@
 		62E573250952A8BB664AA7D7 /* Pods-ChatDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatDemo.debug.xcconfig"; path = "Target Support Files/Pods-ChatDemo/Pods-ChatDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		76A2DCA2F3F022B912FF989B /* Pods-ChatDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatDemo.release.xcconfig"; path = "Target Support Files/Pods-ChatDemo/Pods-ChatDemo.release.xcconfig"; sourceTree = "<group>"; };
 		7BDA1FB92F02E87728118EE1 /* Pods_ChatDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		80A1686B2499A6D400191F34 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		8A7768EF22D608E5001F2348 /* ChatDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A7768F222D608E5001F2348 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8A7768F422D608E5001F2348 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -81,6 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				8A7768F222D608E5001F2348 /* AppDelegate.swift */,
+				80A1686B2499A6D400191F34 /* SceneDelegate.swift */,
 				8A7768F422D608E5001F2348 /* ViewController.swift */,
 				8AAFE5FA22D60CBE00FDD7D2 /* DemoChatViewController.swift */,
 				8A7768F622D608E5001F2348 /* Main.storyboard */,
@@ -209,6 +212,7 @@
 				8A7768F522D608E5001F2348 /* ViewController.swift in Sources */,
 				8AAFE5FB22D60CBE00FDD7D2 /* DemoChatViewController.swift in Sources */,
 				8A7768F322D608E5001F2348 /* AppDelegate.swift in Sources */,
+				80A1686C2499A6D400191F34 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -358,6 +362,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = EHV7XZLAHA;
 				INFOPLIST_FILE = ChatDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -377,6 +382,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = EHV7XZLAHA;
 				INFOPLIST_FILE = ChatDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
