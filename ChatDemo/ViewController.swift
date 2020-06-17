@@ -14,10 +14,6 @@ import StreamChat
 
 /// Use ChannelsViewController as the parent view controller.
 class ViewController: ChannelsViewController {
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-    
     /// We override the inherited method for a channel cell.
     /// Here we can create absolutely new table view cell for the channel.
     override func channelCell(at indexPath: IndexPath, channelPresenter: ChannelPresenter) -> UITableViewCell {
